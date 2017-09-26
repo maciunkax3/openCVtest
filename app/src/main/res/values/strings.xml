@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">openCV test</string>
+    <string name="app_name">Technologic</string>
+    <string name="cascadeFrontalFaceXML">lbpcascade_frontalface.xml</string>
+    <string name="cascadeLeftEyeXML">haarcascade_lefteye_2splits.xml</string>
 </resources>
