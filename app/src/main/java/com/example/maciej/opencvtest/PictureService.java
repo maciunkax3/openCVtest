@@ -18,6 +18,7 @@ import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Trollo on 2017-09-10.
@@ -44,8 +45,8 @@ public class PictureService {
     }
 
     private String getCurrentTimeString(){
-        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d MMM yyyy HH:mm:ss");
-        return "asd";//simpleDateFormat.format(Calendar.getInstance().getTime());
+        Date currentTime = Calendar.getInstance().getTime();
+        return currentTime.toString();//simpleDateFormat.format(Calendar.getInstance().getTime());
     }
 
     public void markFace(){
@@ -56,6 +57,23 @@ public class PictureService {
         Mat marked= picToMark(pictureToMark);
         //String nazwa=file.toString();
         //Imgcodecs.imwrite(nazwa, marked);
+        String name = mainContext.getString(R.string.app_name) + getCurrentTimeString();
+        pictureFile = new File(Environment.getExternalStorageDirectory(), name+".jpg");
+        Imgcodecs.imwrite(pictureFile.getPath(), marked);
+        updateImage();
+    }
+
+    public void markCard(){
+        if(grayscaleImage==null)grayscaleImage=new Mat();
+        Mat pictureToMark= Imgcodecs.imread(pictureFile.getPath());
+        ObjectReconizer cR=new ObjectReconizer(mainContext, R.raw.lbpcascade_frontalface, mainContext.getString(R.string.cascadeFrontalFaceXML), grayscaleImage);
+        MatOfRect cards=cR.getObjects(pictureToMark);
+        org.opencv.core.Rect[] cardsArray = cards.toArray();
+        for(org.opencv.core.Rect card : cardsArray){
+            Imgproc.rectangle(pictureToMark, card.tl(), card.br(), new Scalar(0, 255, 0, 255), 3);;
+        }
+        String name = mainContext.getString(R.string.app_name) + getCurrentTimeString();
+        pictureFile = new File(Environment.getExternalStorageDirectory(), name+".jpg");
         Imgcodecs.imwrite(pictureFile.getPath(), marked);
         updateImage();
     }

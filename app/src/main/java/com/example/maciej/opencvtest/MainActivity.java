@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initializeServices();
         initializeLayout();
+        initializeServices();
         //recognizerService.updateImage(new File(pathPic));
     }
 
@@ -54,13 +54,14 @@ public class MainActivity extends AppCompatActivity {
     private void initializeLayout() {
         Button bt = ((Button)findViewById(R.id.button));
         Button bt2 = ((Button)findViewById(R.id.button2));
+        Button bt3 = ((Button)findViewById(R.id.button3));
         mainImage = ((ImageView)findViewById(R.id.imageView2));
         if(!OpenCVLoader.initDebug()){
             ((TextView)findViewById(R.id.sample_text)).setText("Nie udało sie uruchomic OpenCV");
         }
         else{
             //initializeOpenCVDependencies();
-            ((TextView)findViewById(R.id.sample_text)).setText("OK");
+            ((TextView)findViewById(R.id.sample_text)).setText("OpenCV załadowane");
         }
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +73,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pictureService.markFace();
+            }
+        });
+
+        bt3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pictureService.markCard();
             }
         });
     }
