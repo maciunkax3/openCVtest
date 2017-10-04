@@ -66,15 +66,15 @@ public class PictureService {
     public void markCard(){
         if(grayscaleImage==null)grayscaleImage=new Mat();
         Mat pictureToMark= Imgcodecs.imread(pictureFile.getPath());
-        ObjectReconizer cR=new ObjectReconizer(mainContext, R.raw.lbpcascade_frontalface, mainContext.getString(R.string.cascadeFrontalFaceXML), grayscaleImage);
+        ObjectReconizer cR=new ObjectReconizer(mainContext, R.raw.cascade_card_back, "cascade_card_back.xml", grayscaleImage);
         MatOfRect cards=cR.getObjects(pictureToMark);
         org.opencv.core.Rect[] cardsArray = cards.toArray();
         for(org.opencv.core.Rect card : cardsArray){
-            Imgproc.rectangle(pictureToMark, card.tl(), card.br(), new Scalar(0, 255, 0, 255), 3);;
+            Imgproc.rectangle(pictureToMark, card.tl(), card.br(), new Scalar(0, 255, 0, 255), 3);
         }
         String name = mainContext.getString(R.string.app_name) + getCurrentTimeString();
         pictureFile = new File(Environment.getExternalStorageDirectory(), name+".jpg");
-        Imgcodecs.imwrite(pictureFile.getPath(), marked);
+        Imgcodecs.imwrite(pictureFile.getPath(), pictureToMark);
         updateImage();
     }
 
