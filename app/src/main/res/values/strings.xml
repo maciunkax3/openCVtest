@@ -2,4 +2,10 @@
     <string name="app_name">Technologic</string>
     <string name="cascadeFrontalFaceXML">lbpcascade_frontalface.xml</string>
     <string name="cascadeLeftEyeXML">haarcascade_lefteye_2splits.xml</string>
+    <string-array name="trick_modes">
+        <item>Photo</item>
+        <item>Vibration</item>
+        <item>Toast</item>
+        <item>Write</item>
+    </string-array>
 </resources>

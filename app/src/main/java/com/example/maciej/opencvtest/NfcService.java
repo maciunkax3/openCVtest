@@ -41,7 +41,7 @@ public class NfcService {
     }
 
     public void enableForegroundDispatchSystem(){
-        Intent intent = new Intent(mainContext, MainActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+        Intent intent = new Intent(mainContext, PhotoModeActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
         PendingIntent pending = PendingIntent.getActivities(mainContext, 0, new Intent[]{intent}, 0);
         IntentFilter[] intentFilters = new IntentFilter[] {};
         nfcAdapter.enableForegroundDispatch((Activity)mainContext, pending, intentFilters, null);

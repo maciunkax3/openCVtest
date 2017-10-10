@@ -3,8 +3,6 @@ package com.example.maciej.opencvtest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -81,7 +79,7 @@ public class PictureService {
 
 
     public void updateImage(){
-        ((MainActivity)mainContext).getMainImage().setImageURI(Uri.fromFile(pictureFile));
+        ((PhotoModeActivity)mainContext).getMainImage().setImageURI(Uri.fromFile(pictureFile));
     }
 
 
