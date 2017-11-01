@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import org.opencv.android.OpenCVLoader;
 
+import java.io.IOException;
+
 public class PhotoModeActivity extends AppCompatActivity {
 
     private PictureService pictureService;
@@ -52,14 +54,22 @@ public class PhotoModeActivity extends AppCompatActivity {
         bt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pictureService.markFace();
+                try {
+                    pictureService.markFace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         bt3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pictureService.markCard();
+                try {
+                    pictureService.markCard();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

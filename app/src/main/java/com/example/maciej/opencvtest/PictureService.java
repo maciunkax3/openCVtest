@@ -6,15 +6,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Html;
 
+import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -47,7 +52,7 @@ public class PictureService {
         return currentTime.toString();//simpleDateFormat.format(Calendar.getInstance().getTime());
     }
 
-    public void markFace(){
+    public void markFace() throws IOException {
         if(grayscaleImage==null)grayscaleImage=new Mat();
         //File destt=new File(Environment.getExternalStorageDirectory().toString());
         //File file=new File(destt, "cba.jpg");
@@ -57,18 +62,46 @@ public class PictureService {
         //Imgcodecs.imwrite(nazwa, marked);
         String name = mainContext.getString(R.string.app_name) + getCurrentTimeString();
         pictureFile = new File(Environment.getExternalStorageDirectory(), name+".jpg");
-        Imgcodecs.imwrite(pictureFile.getPath(), marked);
+        Imgcodecs.imwrite(pictureFile.getPath(), pictureToMark);
         updateImage();
     }
 
-    public void markCard(){
+    public void markCard() throws IOException {
         if(grayscaleImage==null)grayscaleImage=new Mat();
         Mat pictureToMark= Imgcodecs.imread(pictureFile.getPath());
-        ObjectReconizer cR=new ObjectReconizer(mainContext, R.raw.cascade_card_back, "cascade_card_back.xml", grayscaleImage);
-        MatOfRect cards=cR.getObjects(pictureToMark);
+        double width=pictureToMark.size().width;
+        double height=pictureToMark.size().height;
+        // Imgproc.resize(pictureToMark, pictureToMark, new Size(200,360 ));
+        MatOfRect cards = new MatOfRect();
+        while(width>140.0){
+            Imgproc.cvtColor(pictureToMark, grayscaleImage, Imgproc.COLOR_RGBA2RGB);
+            ObjectReconizer cR=new ObjectReconizer(mainContext, R.raw.full_card_12, "full_card_12.xml", grayscaleImage);
+            cards=cR.getObjects();
+            if(cards.toArray().length!=1){
+                width/=2;
+                height/=2;
+                Imgproc.resize(pictureToMark, pictureToMark, new Size(width,height ));
+            }
+            else break;
+        }
         org.opencv.core.Rect[] cardsArray = cards.toArray();
-        for(org.opencv.core.Rect card : cardsArray){
-            Imgproc.rectangle(pictureToMark, card.tl(), card.br(), new Scalar(0, 255, 0, 255), 3);
+        if(cardsArray.length==1){
+            Mat picToMarkAfterResize = Imgcodecs.imread(pictureFile.getPath());
+            double ratio= picToMarkAfterResize.size().width/width;
+            Point lt=new Point(cardsArray[0].tl().x*ratio, cardsArray[0].tl().y*ratio);
+            Point br=new Point(cardsArray[0].br().x*ratio, cardsArray[0].br().y*ratio);
+            Mat card_img = Utils.loadResource(mainContext, R.raw.eight_heart_tall, Imgcodecs.CV_LOAD_IMAGE_COLOR);
+            Imgproc.resize(card_img, card_img, new Size((int)br.x - (int)lt.x, (int)br.y - (int)lt.y));
+            Mat selectedArea = picToMarkAfterResize.submat((int)lt.y, (int)br.y, (int)lt.x, (int)br.x);
+            card_img.copyTo(selectedArea);
+            //Imgproc.rectangle(picToMarkAfterResize, new Point(cardsArray[0].tl().x*ratio, cardsArray[0].tl().y*ratio), new Point(cardsArray[0].br().x*ratio, cardsArray[0].br().y*ratio), new Scalar(0, 255, 0, 255), 3);
+            pictureToMark=picToMarkAfterResize;
+        }
+        else {
+            for (org.opencv.core.Rect card : cardsArray) {
+
+                //Imgproc.rectangle(pictureToMark, card.tl(), card.br(), new Scalar(0, 255, 0, 255), 3);
+            }
         }
         String name = mainContext.getString(R.string.app_name) + getCurrentTimeString();
         pictureFile = new File(Environment.getExternalStorageDirectory(), name+".jpg");
@@ -83,18 +116,19 @@ public class PictureService {
     }
 
 
-    public Mat picToMark(Mat aInputFrame){
+    public Mat picToMark(Mat aInputFrame) throws IOException {
         Imgproc.cvtColor(aInputFrame, grayscaleImage, Imgproc.COLOR_RGBA2RGB);
         ObjectReconizer fR=new ObjectReconizer(mainContext, R.raw.lbpcascade_frontalface, mainContext.getString(R.string.cascadeFrontalFaceXML), grayscaleImage);
-        MatOfRect faces=fR.getObjects(aInputFrame);
+        MatOfRect faces=fR.getObjects();
         org.opencv.core.Rect[] facesArray = faces.toArray();
         if(facesArray.length>0) {
-            ObjectReconizer eR=new ObjectReconizer(mainContext, R.raw.haarcascade_lefteye_2splits, mainContext.getString(R.string.cascadeLeftEyeXML), grayscaleImage);
+            ObjectReconizer eR=new ObjectReconizer(mainContext, R.raw.haarcascade_lefteye_2splits, "haarcascade_lefteye_2splits.xml", grayscaleImage);
             for (int i = 0; i < facesArray.length; i++) {
                 org.opencv.core.Rect face=facesArray[i];
                 org.opencv.core.Rect abcd =new org.opencv.core.Rect(face.x, face.y, face.width, face.height);
                 Mat roi_color= new Mat(aInputFrame, abcd);
-                MatOfRect eyes=eR.getObjects(roi_color);
+                eR.setGrayScaleImage(roi_color);
+                MatOfRect eyes=eR.getObjects();
                 org.opencv.core.Rect[] eyesArray=eyes.toArray();
                 Imgproc.rectangle(aInputFrame, face.tl(), face.br(), new Scalar(0, 255, 0, 255), 3);
                 for (org.opencv.core.Rect eye : eyesArray){
@@ -106,7 +140,11 @@ public class PictureService {
                     int y = eyesArray[0].y;
                     int w=x2-x;
                     int h=w/2;
-                    Imgproc.rectangle(roi_color, new Point(x, y-h), new Point(x+w, y), new Scalar(0, 0, 255, 255), 3);
+                    Mat card = Utils.loadResource(mainContext, R.raw.eight_heart, Imgcodecs.CV_LOAD_IMAGE_COLOR);
+                    Imgproc.resize(card, card, new Size(w, h));
+                    Mat selectedArea = roi_color.submat(0, h, x, w+x);
+                    //Imgproc.rectangle(roi_color, new Point(x, y-h), new Point(x+w, y), new Scalar(0, 0, 255, 255), 3);=
+                    card.copyTo(selectedArea);
                 }
             }
         }

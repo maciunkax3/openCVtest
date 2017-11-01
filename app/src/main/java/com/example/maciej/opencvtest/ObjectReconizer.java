@@ -67,13 +67,16 @@ public class ObjectReconizer {
             Log.e("OpenCVActivity", "Error loading cascade", e);
         }
     }
-    public MatOfRect getObjects(Mat aInputFrame){
-        Imgproc.cvtColor(aInputFrame, grayscaleImage, Imgproc.COLOR_RGBA2RGB);
+    public MatOfRect getObjects(){
         MatOfRect objects = new MatOfRect();
         if (cascadeClassifier != null) {
             cascadeClassifier.detectMultiScale(grayscaleImage, objects, 1.3, 2, 2,
                     new Size(absoluteFaceSize, absoluteFaceSize), new Size());
         }
         return objects;
+    }
+
+    public void setGrayScaleImage(Mat gray){
+        grayscaleImage=gray;
     }
 }

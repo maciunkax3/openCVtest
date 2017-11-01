@@ -1,10 +1,14 @@
 [
     {
-        "outputFile": "D:\\Studia\\Programowanie\\openCVtest\\openCVLibrary320\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "outputFile": "/home/maciej/sztuczka/openCVtest/D:\\Studia\\Programowanie\\openCVtest\\openCVLibrary320\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
         "map": []
     },
     {
-        "outputFile": "D:\\Studia\\Programowanie\\EngineerThesis\\openCVLibrary320\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "outputFile": "/home/maciej/sztuczka/openCVtest/openCVLibrary320/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
+        "map": []
+    },
+    {
+        "outputFile": "/home/maciej/sztuczka/openCVtest/D:\\Studia\\Programowanie\\EngineerThesis\\openCVLibrary320\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
         "map": []
     }
 ]
