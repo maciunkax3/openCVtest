@@ -2,10 +2,24 @@
     <string name="app_name">Technologic</string>
     <string name="cascadeFrontalFaceXML">lbpcascade_frontalface.xml</string>
     <string name="cascadeLeftEyeXML">haarcascade_lefteye_2splits.xml</string>
-    <string-array name="trick_modes">
+    <string-array name="trickModes">
         <item>Photo</item>
         <item>Vibration</item>
-        <item>Toast</item>
         <item>Write</item>
     </string-array>
+    <string name="writeModeInstruction">Enter value which you want to save in NFC tag:</string>
+    <string name="settingsTrickMode">Trick mode:</string>
+    <string name="settingsReadingTagMode">Reading tag mode:</string>
+    <string name="settingsVibrationInterval">Vibration interval (ms):</string>
+    <string name="settingsNoVibrationInterval">No vibration interval (ms):</string>
+    <string name="settingsEndOfBitInterval">Interval between signals (ms):</string>
+    <string-array name="readingTagModes">
+        <item>Automatic</item>
+        <item>Manual</item>
+    </string-array>
+    <string name="vibrationModeLastReadValueTextView">Last read value:</string>
+    <string name="readButtonText">READ</string>
+    <string name="startTrickButtonText">START TRICK!</string>
+    <string name="saveSettingsButtonText">SAVE</string>
+    <string name="nfcNotEnabled">NFC NOT ENABLED!</string>
 </resources>

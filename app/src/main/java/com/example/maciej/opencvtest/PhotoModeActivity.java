@@ -72,6 +72,7 @@ public class PhotoModeActivity extends AppCompatActivity {
                 }
             }
         });
+        //hide read button if readingTagMode is set to automatic
     }
 
     @Override
@@ -84,7 +85,7 @@ public class PhotoModeActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        nfcService.onNewIntent(intent);
+        nfcService.setNfcTag(intent);
     }
 
     @Override

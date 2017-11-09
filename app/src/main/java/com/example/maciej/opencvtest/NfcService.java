@@ -9,63 +9,81 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.nfc.TagLostException;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
  * Created by Trollo on 2017-09-10.
  */
 
-public class NfcService {
+public class NfcService /*implements NfcAdapter.OnTagRemovedListener - required API > 24*/{
     private NfcAdapter nfcAdapter;
-    private Context mainContext;
+    private Tag tag;
+    private Context context;
 
     public NfcService(Context context){
-        this.mainContext = context;
-        this.nfcAdapter = NfcAdapter.getDefaultAdapter(mainContext);
-        if(nfcAdapter != null && nfcAdapter.isEnabled()){
-            Toast.makeText(mainContext, "NFC available!", Toast.LENGTH_LONG).show();
-        }//TO DO print explicit on interface that app won't work without nfc
-        else{
-            Toast.makeText(mainContext, "NFC not available!", Toast.LENGTH_LONG).show();
-        }
+        this.context = context;
+        this.nfcAdapter = NfcAdapter.getDefaultAdapter(context);
+    }
+
+    public boolean isNfcAvalaible(){
+        return (nfcAdapter != null && nfcAdapter.isEnabled());
     }
 
     public void disableForegroundDispatchSystem(){
-        nfcAdapter.disableForegroundDispatch((Activity)mainContext);
+        nfcAdapter.disableForegroundDispatch((Activity)context);
     }
 
     public void enableForegroundDispatchSystem(){
-        Intent intent = new Intent(mainContext, PhotoModeActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
-        PendingIntent pending = PendingIntent.getActivities(mainContext, 0, new Intent[]{intent}, 0);
+        Intent intent = new Intent(context, context.getClass()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+        PendingIntent pending = PendingIntent.getActivities(context, 0, new Intent[]{intent}, 0);
         IntentFilter[] intentFilters = new IntentFilter[] {};
-        nfcAdapter.enableForegroundDispatch((Activity)mainContext, pending, intentFilters, null);
+        nfcAdapter.enableForegroundDispatch((Activity)context, pending, intentFilters, null);
     }
 
-    public void onNewIntent(Intent intent) {
-        if(intent.hasExtra(nfcAdapter.EXTRA_TAG)){
-            Parcelable[] parcelables = intent.getParcelableArrayExtra(nfcAdapter.EXTRA_NDEF_MESSAGES);
-            if(parcelables != null && parcelables.length > 0) {
-                readTextFromMessage((NdefMessage)parcelables[0]);
-            }
-            else{
-                Toast.makeText(mainContext, "No ndfef messages", Toast.LENGTH_SHORT).show();
-            }
+    public boolean setNfcTag(Intent intent) {
+        if(intent.hasExtra(NfcAdapter.EXTRA_TAG)){
+            tag = getTag(intent);
+            return true;
         }
+        return false;
     }
 
-    private void readTextFromMessage(NdefMessage mess) {
-        NdefRecord[] records = mess.getRecords();
-        if(records != null){
+    public boolean writeToNfcTag(String content){
+        return writeNdefMessage(content);
+    }
+
+    public String readFromNfcTag(){
+        return readTextFromTag();
+    }
+
+    private Tag getTag(Intent intent) {
+        return intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+    }
+
+    private String readTextFromTag() {
+        Ndef ndef = Ndef.get(tag);
+        NdefMessage ndefMessage;
+        try {
+            ndef.connect();
+            ndefMessage = ndef.getNdefMessage();
+        }
+        catch(Exception ex){
+            return null;
+        }
+        NdefRecord[] records = ndefMessage.getRecords();
+        if(records != null && records.length > 0){
             NdefRecord record = records[0];
-            String tagContent = getTextFromNdefRecord(record);
-            Toast.makeText(mainContext, tagContent, Toast.LENGTH_SHORT).show();
+            return getTextFromNdefRecord(record);
         }
+        return null;
     }
 
     private String getTextFromNdefRecord(NdefRecord record) {
@@ -83,58 +101,36 @@ public class NfcService {
         return tagContent;
     }
 
-    private void formatTag(Tag tag, NdefMessage mess){
-        try{
-            NdefFormatable ndef = NdefFormatable.get(tag);
-            if(ndef == null){
-                Toast.makeText(mainContext, "Tag is not ndef formattable", Toast.LENGTH_SHORT).show();
-
-            }
-            else{
-                ndef.connect();
-                ndef.format(mess);
-                ndef.close();
-            }
-        }
-        catch(Exception e){
-            Log.e("formatTag", e.getMessage());
-        }
-    }
-
     private NdefMessage createNdefMessage(String content){
-        NdefRecord record = NdefRecord.createTextRecord(null, content);//tagTextField.getText().toString());
-        NdefMessage mess = new NdefMessage(new NdefRecord[]{record});
-        return mess;
+        NdefRecord record = NdefRecord.createTextRecord(null, content);
+        return new NdefMessage(record);
     }
 
-    private void writeNdefMessage(Tag tag, NdefMessage mess){
+    private boolean writeNdefMessage( String content){
         try{
             if(tag == null){
-                Toast.makeText(mainContext, "Tag object cannot be null", Toast.LENGTH_SHORT).show();
+                return false;
             }
             else{
                 Ndef ndef = Ndef.get(tag);
+                NdefMessage mess = createNdefMessage(content);
                 if(ndef == null){
-                    formatTag(tag, mess);
+                    return false;
                 }
                 else{
                     ndef.connect();
                     if(!ndef.isWritable()){
-                        Toast.makeText(mainContext, "Tag is not writable", Toast.LENGTH_SHORT).show();
-
                         ndef.close();
-                        return;
+                        return false;
                     }
                     ndef.writeNdefMessage(mess);
                     ndef.close();
-                    Toast.makeText(mainContext, "Tag written!", Toast.LENGTH_SHORT).show();
-
+                    return true;
                 }
-
             }
         }
         catch(Exception e){
-            Log.e("formatTag", e.getMessage());
+            return false;
         }
     }
 }
