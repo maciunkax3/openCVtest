@@ -51,8 +51,7 @@ public class WriteModeActivity extends AppCompatActivity {
         if(SettingsSingleton.getInstance().isReadingTagModeAutomatic()){
             writeToNfcTag(null);
         }
-        if(result)return;
-        else super.onNewIntent(intent);
+        if(!result) super.onNewIntent(intent);
     }
 
     private void initializeServices() {

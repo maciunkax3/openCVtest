@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Technologic</string>
+    <string name="settingsFileName">Technologic.settings</string>
     <string name="cascadeFrontalFaceXML">lbpcascade_frontalface.xml</string>
     <string name="cascadeLeftEyeXML">haarcascade_lefteye_2splits.xml</string>
     <string-array name="trickModes">
@@ -22,4 +23,14 @@
     <string name="startTrickButtonText">START TRICK!</string>
     <string name="saveSettingsButtonText">SAVE</string>
     <string name="nfcNotEnabled">NFC NOT ENABLED!</string>
+    <string-array name="cardSuits">
+        <item>Hearts</item>
+        <item>Spades</item>
+        <item>Diamonds</item>
+        <item>Clubs</item>
+    </string-array>
+    <string name="jsonItemIconId">icon_id</string>
+    <string name="jsonItemCardId">card_id</string>
+    <string name="jsonItemName">name</string>
+    <string name="jsonItemVibrationPattern">vibration_pattern</string>
 </resources>

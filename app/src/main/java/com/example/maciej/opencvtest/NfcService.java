@@ -70,6 +70,7 @@ public class NfcService /*implements NfcAdapter.OnTagRemovedListener - required 
 
     private String readTextFromTag() {
         Ndef ndef = Ndef.get(tag);
+        if(ndef == null) return null;
         NdefMessage ndefMessage;
         try {
             ndef.connect();

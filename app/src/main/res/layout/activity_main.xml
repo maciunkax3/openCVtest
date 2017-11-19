@@ -6,187 +6,195 @@
     android:layout_height="match_parent"
     tools:context="com.example.maciej.opencvtest.MainActivity">
 
-    <TextView
-        android:id="@+id/trickModeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/settingsTrickMode"
-        android:textAlignment="textStart"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@+id/saveSettingsButton"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="16dp" />
-
-    <TextView
-        android:id="@+id/readingTagMode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="23dp"
-        android:text="@string/settingsReadingTagMode"
-        android:textAlignment="textStart"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trickModeTextView"
-        android:layout_marginStart="16dp" />
-
-    <TextView
-        android:id="@+id/noVibrationIntervalTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:text="@string/settingsNoVibrationInterval"
-        android:textAlignment="textStart"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@+id/vibrationIntervalTextView" />
-
-    <TextView
-        android:id="@+id/endOfBitIntervalTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/settingsEndOfBitInterval"
-        android:textAlignment="textStart"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noVibrationIntervalTextView" />
-
-    <TextView
-        android:id="@+id/vibrationIntervalTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:text="@string/settingsVibrationInterval"
-        android:textAlignment="textStart"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@+id/readingTagMode" />
-
-    <Spinner
-        android:id="@+id/trickModeSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:spinnerMode="dialog"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startTrickButton"
-        android:layout_marginEnd="16dp" />
-
-    <Spinner
-        android:id="@+id/readingTagModeSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:spinnerMode="dialog"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trickModeSpinner"
-        android:layout_marginEnd="16dp" />
-
-    <Button
-        android:id="@+id/startTrickButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="startTrick"
-        android:text="@string/startTrickButtonText"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="16dp" />
-
-    <Button
-        android:id="@+id/saveSettingsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="saveSetting"
-        android:text="@string/saveSettingsButtonText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="16dp" />
-
-    <Button
-        android:id="@+id/readingTagModeButton"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginLeft="7dp"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="24dp"
-        android:background="@android:drawable/ic_menu_help"
-        android:elevation="0dp"
-        app:layout_constraintLeft_toRightOf="@+id/readingTagMode"
-        app:layout_constraintTop_toBottomOf="@+id/trickModeTextView" />
-
-    <TextView
-        android:id="@+id/nfcNotEnabledTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="33dp"
-        android:text="@string/nfcNotEnabled"
-        android:textColor="@android:color/holo_red_dark"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/startTrickButton"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintLeft_toRightOf="@+id/saveSettingsButton"
-        android:layout_marginLeft="16dp" />
-
-    <EditText
-        android:id="@+id/noVibrationIntervalEditText"
-        android:layout_width="139dp"
-        android:layout_height="32dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:layout_marginRight="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/vibrationIntervalEditText" />
-
-    <EditText
-        android:id="@+id/endOfBitIntervalEditText"
-        android:layout_width="139dp"
-        android:layout_height="32dp"
-        android:layout_marginRight="16dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/noVibrationIntervalEditText" />
-
-    <EditText
-        android:id="@+id/vibrationIntervalEditText"
-        android:layout_width="139dp"
-        android:layout_height="32dp"
-        android:layout_marginRight="16dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/readingTagModeSpinner" />
 
     <ExpandableListView
-        android:layout_width="347dp"
-        android:layout_height="27dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
+        android:id="@+id/cardsSettings"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:nestedScrollingEnabled="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endOfBitIntervalEditText"
-        tools:layout_editor_absoluteX="6dp" />
+        app:layout_constraintTop_toBottomOf="@+id/mainScrollView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp" />
 
+    <ScrollView
+        android:id="@+id/mainScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:nestedScrollingEnabled="true"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cardsSettings">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/trickModeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settingsTrickMode"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/saveSettingsButton"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="16dp" />
+
+            <TextView
+                android:id="@+id/readingTagMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/settingsReadingTagMode"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@+id/trickModeTextView"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="16dp" />
+
+            <TextView
+                android:id="@+id/endOfBitIntervalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settingsEndOfBitInterval"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/noVibrationIntervalTextView"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp" />
+
+            <TextView
+                android:id="@+id/noVibrationIntervalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="25dp"
+                android:text="@string/settingsNoVibrationInterval"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vibrationIntervalTextView" />
+
+            <TextView
+                android:id="@+id/vibrationIntervalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settingsVibrationInterval"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                android:layout_marginTop="19dp"
+                app:layout_constraintTop_toBottomOf="@+id/readingTagMode"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp" />
+
+            <Spinner
+                android:id="@+id/trickModeSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/startTrickButton"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="16dp" />
+
+            <Spinner
+                android:id="@+id/readingTagModeSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/trickModeSpinner"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="16dp" />
+
+            <Button
+                android:id="@+id/startTrickButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="startTrick"
+                android:text="@string/startTrickButtonText"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp" />
+
+            <Button
+                android:id="@+id/saveSettingsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:onClick="saveSetting"
+                android:text="@string/saveSettingsButtonText"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="16dp" />
+
+            <Button
+                android:id="@+id/readingTagModeButton"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="16dp"
+                android:background="@android:drawable/ic_menu_help"
+                android:elevation="0dp"
+                android:visibility="invisible"
+                app:layout_constraintLeft_toRightOf="@+id/readingTagMode"
+                app:layout_constraintTop_toBottomOf="@+id/trickModeTextView" />
+
+            <TextView
+                android:id="@+id/nfcNotEnabledTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/nfcNotEnabled"
+                android:textColor="@android:color/holo_red_dark"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/saveSettingsButton"
+                android:layout_marginStart="8dp" />
+
+            <EditText
+                android:id="@+id/noVibrationIntervalEditText"
+                android:layout_width="139dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:labelFor="@id/noVibrationIntervalTextView"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vibrationIntervalEditText" />
+
+            <EditText
+                android:id="@+id/endOfBitIntervalEditText"
+                android:layout_width="139dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:labelFor="@id/endOfBitIntervalTextView"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/noVibrationIntervalEditText" />
+
+            <EditText
+                android:id="@+id/vibrationIntervalEditText"
+                android:layout_width="139dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:labelFor="@id/vibrationIntervalTextView"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/readingTagModeSpinner" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

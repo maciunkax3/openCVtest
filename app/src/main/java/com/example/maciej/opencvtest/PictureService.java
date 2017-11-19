@@ -38,11 +38,15 @@ public class PictureService {
         this.grayscaleImage = new Mat();
     }
 
-    public void takePic(){
+    private File getPictureFile(){
         String name = mainContext.getString(R.string.app_name) + getCurrentTimeString();
-        pictureFile = new File(Environment.getExternalStorageDirectory(), name+".jpg");
+        return new File(SettingsSingleton.getInstance().getApplicationDirectory(), name+".jpg");
+    }
+
+    public void takePic(){
+        pictureFile = getPictureFile();
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(pictureFile));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getPictureFile()));
         //pathPic = dest.getPath();
         ((Activity)mainContext).startActivityForResult(intent, REQUEST_IMAGE);
     }
@@ -60,8 +64,7 @@ public class PictureService {
         Mat marked= picToMark(pictureToMark);
         //String nazwa=file.toString();
         //Imgcodecs.imwrite(nazwa, marked);
-        String name = mainContext.getString(R.string.app_name) + getCurrentTimeString();
-        pictureFile = new File(Environment.getExternalStorageDirectory(), name+".jpg");
+        pictureFile = getPictureFile();
         Imgcodecs.imwrite(pictureFile.getPath(), pictureToMark);
         updateImage();
     }
@@ -103,8 +106,7 @@ public class PictureService {
                 //Imgproc.rectangle(pictureToMark, card.tl(), card.br(), new Scalar(0, 255, 0, 255), 3);
             }
         }
-        String name = mainContext.getString(R.string.app_name) + getCurrentTimeString();
-        pictureFile = new File(Environment.getExternalStorageDirectory(), name+".jpg");
+        pictureFile = getPictureFile();
         Imgcodecs.imwrite(pictureFile.getPath(), pictureToMark);
         updateImage();
     }
