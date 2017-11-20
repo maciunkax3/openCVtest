@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.opencv.android.OpenCVLoader;
 
@@ -86,6 +87,11 @@ public class PhotoModeActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         nfcService.setNfcTag(intent);
+        if(SettingsSingleton.getInstance().isReadingTagModeAutomatic()){
+            String cardName = nfcService.readFromNfcTag();
+            Toast.makeText(this, cardName, Toast.LENGTH_SHORT).show();
+            pictureService.setResourceId(SettingsSingleton.getInstance().getIconResourceIdOfCardName(cardName));
+        }
     }
 
     @Override

@@ -591,4 +591,15 @@ public class SettingsSingleton {
         }
         return new boolean[6];
     }
+
+    public int getIconResourceIdOfCardName(String name){
+        for (Map.Entry<CardSettingsHeader, List<CardSettingsItem>> entry: cardSettingsItems.entrySet()) {
+            for(CardSettingsItem item: entry.getValue()) {
+                if(item.getItemName().equalsIgnoreCase(name)){
+                    return item.getItemIconResourceId();
+                }
+            }
+        }
+        return R.raw.king_of_clubs;//default
+    }
 }

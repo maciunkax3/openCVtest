@@ -32,10 +32,16 @@ public class PictureService {
     private Mat grayscaleImage;
     public File pictureFile;
     public final int REQUEST_IMAGE = 100;
+    private int resourceId;
+
+    public void setResourceId(int resourceId) {
+        this.resourceId = resourceId;
+    }
 
     public PictureService(Context context){
         this.mainContext = context;
         this.grayscaleImage = new Mat();
+        resourceId = R.raw.king_of_clubs;//default value
     }
 
     private File getPictureFile(){
@@ -93,18 +99,12 @@ public class PictureService {
             double ratio= picToMarkAfterResize.size().width/width;
             Point lt=new Point(cardsArray[0].tl().x*ratio, cardsArray[0].tl().y*ratio);
             Point br=new Point(cardsArray[0].br().x*ratio, cardsArray[0].br().y*ratio);
-            Mat card_img = Utils.loadResource(mainContext, R.raw.eight_heart_tall, Imgcodecs.CV_LOAD_IMAGE_COLOR);
+            Mat card_img = Utils.loadResource(mainContext, resourceId, Imgcodecs.CV_LOAD_IMAGE_COLOR);
             Imgproc.resize(card_img, card_img, new Size((int)br.x - (int)lt.x, (int)br.y - (int)lt.y));
             Mat selectedArea = picToMarkAfterResize.submat((int)lt.y, (int)br.y, (int)lt.x, (int)br.x);
             card_img.copyTo(selectedArea);
             //Imgproc.rectangle(picToMarkAfterResize, new Point(cardsArray[0].tl().x*ratio, cardsArray[0].tl().y*ratio), new Point(cardsArray[0].br().x*ratio, cardsArray[0].br().y*ratio), new Scalar(0, 255, 0, 255), 3);
             pictureToMark=picToMarkAfterResize;
-        }
-        else {
-            for (org.opencv.core.Rect card : cardsArray) {
-
-                //Imgproc.rectangle(pictureToMark, card.tl(), card.br(), new Scalar(0, 255, 0, 255), 3);
-            }
         }
         pictureFile = getPictureFile();
         Imgcodecs.imwrite(pictureFile.getPath(), pictureToMark);
@@ -142,7 +142,8 @@ public class PictureService {
                     int y = eyesArray[0].y;
                     int w=x2-x;
                     int h=w/2;
-                    Mat card = Utils.loadResource(mainContext, R.raw.eight_heart, Imgcodecs.CV_LOAD_IMAGE_COLOR);
+                    Mat card = Utils.loadResource(mainContext, resourceId, Imgcodecs.CV_LOAD_IMAGE_COLOR);
+                    org.opencv.core.Core.flip(card.t(), card, 1);
                     Imgproc.resize(card, card, new Size(w, h));
                     Mat selectedArea = roi_color.submat(0, h, x, w+x);
                     //Imgproc.rectangle(roi_color, new Point(x, y-h), new Point(x+w, y), new Scalar(0, 0, 255, 255), 3);=
