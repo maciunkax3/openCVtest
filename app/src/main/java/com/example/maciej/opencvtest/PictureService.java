@@ -143,7 +143,7 @@ public class PictureService {
                     int w=x2-x;
                     int h=w/2;
                     Mat card = Utils.loadResource(mainContext, resourceId, Imgcodecs.CV_LOAD_IMAGE_COLOR);
-                    org.opencv.core.Core.flip(card.t(), card, 1);
+                    org.opencv.core.Core.flip(card.t(), card, 0);
                     Imgproc.resize(card, card, new Size(w, h));
                     Mat selectedArea = roi_color.submat(0, h, x, w+x);
                     //Imgproc.rectangle(roi_color, new Point(x, y-h), new Point(x+w, y), new Scalar(0, 0, 255, 255), 3);=
