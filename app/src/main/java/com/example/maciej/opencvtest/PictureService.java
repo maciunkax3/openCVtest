@@ -78,7 +78,7 @@ public class PictureService {
         MatOfRect cards = new MatOfRect();
         while(width>140.0){
             Imgproc.cvtColor(pictureToMark, grayscaleImage, Imgproc.COLOR_RGBA2RGB);
-            ObjectReconizer cR=new ObjectReconizer(mainContext, R.raw.full_card_12, "full_card_12.xml", grayscaleImage);
+            ObjectReconizer cR=new ObjectReconizer(mainContext, R.raw.newcard, "newcard.xml", grayscaleImage);
             cards=cR.getObjects();
             if(cards.toArray().length!=1){
                 width/=2;

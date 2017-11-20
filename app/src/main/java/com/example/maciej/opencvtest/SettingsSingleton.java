@@ -81,7 +81,8 @@ public class SettingsSingleton {
             settingsFile = new File(applicationDirectory + File.separator + Technologic.getContext().getString(R.string.settingsFileName));
             createBaseSettings();
             try {
-                //saveSettings();
+                if(!settingsFile.exists())
+                    saveSettings();
                 loadSettings();
             }
             catch(Exception e){
